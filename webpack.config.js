@@ -1,49 +1,38 @@
-const path = require("path");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 
 module.exports = {
-  output: {
-    path: path.resolve(__dirname, "build"),
-    filename: "bundle.js",
-  },
-  resolve: {
-    modules: [path.join(__dirname, "src"), "node_modules"],
-    alias: {
-      react: path.join(__dirname, "node_modules", "react"),
+    entry: {
+        app: ['./src/index.tsx'],
+        vendor: ['react', 'react-dom']
     },
-  },
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    publicPath: "/",
-    inline:true,
-    port: 8008
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: "style-loader",
-          },
-          {
-            loader: "css-loader",
-          },
-        ],
-      },
-    ],
-  },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/index.html",
-    }),
-  ],
-};
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'js/[name].bundle.js',
+        publicPath: '/'
+    },
+    devtool: 'source-map',
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+    },
+    devServer: {
+        contentBase: './dist',
+        port: 8000,
+        historyApiFallback: true
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(ts|js)x?$/,
+                exclude: '/node_modules',
+                loader: 'babel-loader'
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ]
+}
